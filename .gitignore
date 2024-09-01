@@ -1,0 +1,4 @@
+# Ignore data files
+data_sources/customer_release.csv
+data_sources/transactions_release.parquet
+data_sources/fraud_release.json
