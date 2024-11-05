@@ -6,12 +6,12 @@ import numpy as np
 class Model:
     def __init__(self, config_path, weights_path, class_names_path):
         """
-        Initializes the YOLO model with the given configuration and weights files.
+        Initializes the YOLO model.
 
         Parameters:
-        - config_path (str): Path to the YOLO configuration file (e.g., 'yolov3.cfg').
-        - weights_path (str): Path to the YOLO weights file (e.g., 'yolov3.weights').
-        - class_names_path (str): Path to the file containing class names (e.g., 'coco.names').
+        - config_path (str): Path to the YOLO configuration file
+        - weights_path (str): Path to the YOLO weights file
+        - class_names_path (str): Path to the file containing class names
         """
         # Load YOLO network
         self.net = cv2.dnn.readNetFromDarknet(config_path, weights_path)
@@ -28,13 +28,13 @@ class Model:
 
     def predict(self, preprocessed_frame):
         """
-        Takes a single preprocessed frame and outputs all (noisy) predictions of the model.
+        Outputs all (noisy) predictions of the model.
 
         Parameters:
-        - preprocessed_frame (numpy.ndarray): The preprocessed image/frame.
+        - preprocessed_frame (numpy.ndarray): The preprocessed frame.
 
         Returns:
-        - outs (list): The raw outputs from the YOLO model.
+        - outs (list): The raw outputs 
         """
        
         blob = cv2.dnn.blobFromImage(preprocessed_frame, 1/255.0, (416, 416), swapRB=True, crop=False)
@@ -47,17 +47,17 @@ class Model:
 
     def post_process(self, predict_output, score_threshold, nms_threshold=0.4):
         """
-        Processes the output of the predict() function and returns predictions with scores greater than score_threshold.
+        Processes the output of the predict() function.
 
         Parameters:
         - predict_output (list): The output from the predict() function.
-        - score_threshold (float): The minimum confidence score required to keep a prediction.
-        - nms_threshold (float): Non-maximum suppression threshold.
+        - score_threshold (float): The minimum confidence score required
+        - nms_threshold (float): Non-maximum suppression threshold
 
         Returns:
-        - bboxes (List of tuples): Bounding boxes of detected objects [(x, y, width, height), ...].
-        - class_ids (List of ints): Class IDs of the detected objects.
-        - scores (List of floats): Confidence scores of the detected objects.
+        - bboxes (List of tuples): Bounding boxes of detected objects
+        - class_ids (List of ints): Class IDs of the detected objects
+        - scores (List of floats): Confidence scores
         """
         frame_height, frame_width = self.frame_shape
 
