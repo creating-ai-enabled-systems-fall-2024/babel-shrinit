@@ -2,15 +2,14 @@ import cv2
 
 def capture_video(filename, drop_rate):
     """
-    Generator function that reads a video file, drops frames according to the drop_rate,
-    and yields the remaining frames.
+    Generator function that reads a video file and yields the remaining frames.
 
     Parameters:
-    - filename (str): Path to the video file.
-    - drop_rate (int): The rate at which frames are dropped (e.g., drop_rate=10 yields every 10th frame).
+    - filename (str): Path 
+    - drop_rate (int): rate at which frames are dropped (example: drop_rate=10 yields every 10th frame).
 
     Yields:
-    - frame (numpy.ndarray): The next frame in the video after dropping frames.
+    - frame (numpy.ndarray): The next frame in the video after dropping frames
     """
     # Open the video file
     cap = cv2.VideoCapture(filename)
