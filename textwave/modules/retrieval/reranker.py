@@ -72,10 +72,9 @@ class Reranker:
         vectorizer = TfidfVectorizer(stop_words='english')
         tfidf_matrix = vectorizer.fit_transform(all_texts)
 
-        # Calculate distance scores between the query (first vector) and each document
+        # Calculate distance scores 
         distances = pairwise_distances(tfidf_matrix[0:1], tfidf_matrix[1:], metric=distance_metric).flatten()
         
-        # Sort indices in ascending order for similarity metrics (higher is better) and descending for distance
         if distance_metric == "cosine":
             ranked_indices = np.argsort(distances)
         else:
@@ -123,10 +122,8 @@ class Reranker:
         :param top_k: Number of top candidates from TF-IDF to pass to cross-encoder.
         :return: Re-ranked documents, indices, and scores.
         """
-        # Step 1: Initial ranking with TF-IDF
         tfidf_ranked_docs, tfidf_indices, tfidf_scores = self.tfidf_rerank(query, context)
 
-        # Step 2: Pass top-k TF-IDF ranked documents to cross-encoder
         top_k_docs = tfidf_ranked_docs[:top_k]
         cross_encoder_ranked_docs, cross_encoder_indices, cross_encoder_scores = self.cross_encoder_rerank(query, top_k_docs)
 
@@ -141,7 +138,7 @@ class Reranker:
         :param distance_metric: Distance metric for TF-IDF similarity (default: 'cosine').
         :return: Ranked documents, indices, and similarity scores.
         """
-        # Use TF-IDF to rank all corpus documents
+        # TF-IDF 
         return self.tfidf_rerank(query, corpus, distance_metric)
 
 
