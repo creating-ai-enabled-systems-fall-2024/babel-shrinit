@@ -79,38 +79,30 @@ class Pipeline:
         """
         Generates an answer to the query based on the context from nearest neighbors.
         """
-        # Step 1: Encode the query and search for nearest neighbors
         query_embedding = self.__encode(query)
         distances, indices, metadata = self.search_neighbors(query_embedding, k=k)
 
-        # Flatten the nested metadata list
         flat_metadata = [item for sublist in metadata for item in sublist]
 
-        # Extract chunks from the flattened metadata
         context = [meta['chunk'] for meta in flat_metadata if 'chunk' in meta]
 
-        # Step 2: Optionally rerank the context
         if rerank:
             context, _, _ = self.reranker.rerank(query, context)
 
-        # Step 3: Generate the answer using the question-answering generator
-        answer = self.qa_generator.generate_answer(query, context[:k])  # Use top-k context
+        answer = self.qa_generator.generate_answer(query, context[:k])  
         return answer
 
     
 
 
 if __name__ == "__main__":
-    # Example usage
     pipeline = Pipeline()
 
-    # Load and preprocess the corpus
     corpus_directory = "storage/corpus"
     pipeline.preprocess_corpus(corpus_directory, chunking_strategy='sentence', overlap_size=2)
 
-    # Test nearest neighbors search
     query = "Who was Abraham Lincoln?"
-    query_embedding = pipeline._Pipeline__encode(query)  # Access the private method
+    query_embedding = pipeline._Pipeline__encode(query) 
     distances, indices, metadata = pipeline.search_neighbors(query_embedding, k=15)
 
     print("\nQuery:", query)
