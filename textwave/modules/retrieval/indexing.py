@@ -95,6 +95,24 @@ class FaissIndex:
                 self.metadata.extend(metadata)
             else:
                 self.metadata.append(metadata)
+                
+    def search(self, query_embeddings, k=10):
+        """
+        Searches for the k-nearest neighbors to the query embeddings.
+        
+        :param query_embeddings: Embedding vector(s) for the query.
+        :param k: Number of nearest neighbors to retrieve.
+        :return: Distances, indices, and metadata for the neighbors.
+        """
+        if self.index is None:
+            raise ValueError("The index is empty. Add embeddings before searching.")
+        
+        distances, indices = self.index.search(query_embeddings, k)
+        results_metadata = [
+            [self.metadata[idx] for idx in index_list if idx < len(self.metadata)]
+            for index_list in indices
+        ]
+        return distances, indices, results_metadata
 
 
     def get_metadata(self, index):
