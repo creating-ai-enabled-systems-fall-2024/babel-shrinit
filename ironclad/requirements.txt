@@ -1,0 +1,7 @@
+flask
+torch
+facenet-pytorch
+pillow
+faiss-cpu
+numpy
+torchvision
